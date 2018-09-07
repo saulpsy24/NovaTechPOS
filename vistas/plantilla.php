@@ -45,9 +45,27 @@ PLUGINS DE CSS
 <!-- Site wrapper -->
 <div class="wrapper">
     <?php
+    /*Cabecera*/
     include "modulos/cabecera.php";
+
+    /*Menu lateral*/
+    include "modulos/menu.php";
+
+
+    /*contenido*/
+    if(isset($_GET["ruta"])){
+       
+            include "modulos/".$_GET["ruta"].".php";
+        
+    }
+
+   
+    /*Footer*/
+    include "modulos/footer.php";
     
     ?>
+   
+    
 
 
  
