@@ -23,6 +23,7 @@
 <!--=====================================
 PLUGINS DE CSS
 ======================================-->
+<link rel="icon" href="vistas/img/plantilla/icono-negro.png">
 
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -41,36 +42,56 @@ PLUGINS DE CSS
    <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
-<!-- Site wrapper -->
-<div class="wrapper">
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini login-page">
+
+
     <?php
-    /*Cabecera*/
-    include "modulos/cabecera.php";
-
-    /*Menu lateral*/
-    include "modulos/menu.php";
-
-
-    /*contenido*/
-    if(isset($_GET["ruta"])){
-       
-            include "modulos/".$_GET["ruta"].".php";
+    if(isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"]=="ok"){
         
+        echo '<div class="wrapper">';
+
+        /*Cabecera*/
+        include "modulos/cabecera.php";
+    
+        /*Menu lateral*/
+        include "modulos/menu.php";
+    
+    
+        /*contenido*/
+        if(isset($_GET["ruta"])){
+            if($_GET["ruta"]=="inicio"||
+            $_GET["ruta"]=="usuarios"||
+            $_GET["ruta"]=="categorias"||
+            $_GET["ruta"]=="productos"||
+            $_GET["ruta"]=="clientes"||
+            $_GET["ruta"]=="ventas"||
+            $_GET["ruta"]=="crear-venta"||
+            $_GET["ruta"]=="reportes"){
+                include "modulos/".$_GET["ruta"].".php";
+    
+            }else{
+                include "modulos/404.php";
+            }
+           
+                
+            
+        }else{
+            include "modulos/inicio.php";
+        }
+    
+       
+        /*Footer*/
+        include "modulos/footer.php";
+        echo '</div>';       
+
+    }else{
+        include "modulos/login.php";
+
     }
 
    
-    /*Footer*/
-    include "modulos/footer.php";
-    
     ?>
-   
-    
 
-
- 
-</div>
-<!-- ./wrapper -->
 <script src="vistas/js/plantilla.js"></script>
 
 </body>

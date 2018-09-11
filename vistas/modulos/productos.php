@@ -4,12 +4,12 @@
     <section class="content-header">
       <h1>
         NovaTech POS
-        <small>Panel Principal</small>
+        <small>Panel de Productos</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
        
-        <li class="active">Panel de Control</li>
+        <li class="active">Panel de Productos</li>
       </ol>
     </section>
 
