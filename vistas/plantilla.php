@@ -15,6 +15,9 @@ session_start();
 
     <!-- jQuery 3 -->
 <script src="vistas/bower_components/jquery/dist/jquery.min.js"></script>
+<!--SWEET ALERT-->
+<script src="vistas/js/sweetalert2.all.js"></script>
+
 <!-- Bootstrap 3.3.7 -->
 <script src="vistas/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- SlimScroll -->
@@ -113,6 +116,7 @@ PLUGINS DE CSS
     ?>
 
 <script src="vistas/js/plantilla.js"></script>
+<script src="vistas/js/usuarios.js"></script>
 
 </body>
 </html>

@@ -32,7 +32,7 @@
         <table class="table table-bordered table-striped tablas dt-responsive">
           <thead>
             <tr>
-              <th style="width:10px">
+              <th>
                 #
               </th>
               <th>
@@ -157,28 +157,17 @@
             <div class="panel text-uppercase">subir foto</div>
             <input type="file" id="nuevaFoto" name="nuevaFoto">
             <p class="help-block">Máximo de 20MB </p>
-            <img id="imgUser" src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="100px">
+            <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="100px">
 
           </div>
 
 
         </div>
         <div class="modal-footer">
-          <button type="button" data-dismiss="modal" class="btn btn-default pull-left" >Cerrar</button>
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
           <button type="submit" class="btn btn-primary">Registrar</button>
         </div>
       </div>
-
-      <?php
-
-      $crearUsuario = new ControladorUsuarios();
-
-      $crearUsuario->ctrCrearUsuario();
-      ?>
-
-
-
-
     </form>
 
     </div>

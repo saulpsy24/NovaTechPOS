@@ -2,7 +2,7 @@
 class Conexion{
     
     //inicar funcion de conexion
-    public function conectar(){
+    static public function conectar(){
         //Configurar Variables dependiendo del servidor:
     $host="localhost";
     $db="pos";
