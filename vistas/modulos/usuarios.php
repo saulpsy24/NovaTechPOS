@@ -59,14 +59,33 @@
               </th>
             </tr>
           </thead>
+          <!--listando usuarios-->
           <tbody>
-            <td>1</td>
-            <td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>
-            <td>Usuario Admin</td>
-            <td>admin</td>
-            <td>Administrador</td>
-            <td><button class="btn btn-success btn-xs">Activado</button></td>
-            <td>2017-12-11 12:05:32</td>
+
+          <?php
+          $item =null;
+          $valor = null;
+          $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item,$valor);
+          foreach($usuarios as $key => $value){
+            if($value["foto"]==""){
+              $fotouser="vistas/img/usuarios/default/anonymous.png";
+            }else{
+              $fotouser=$value["foto"];
+            }
+            if($value["estado"]=="0"){
+              $estado="Inactivo";
+              $clasestatus="danger";
+            }else{
+              $estado=" Activo ";
+              $clasestatus="success";
+            }
+            echo '  <tr><td>1</td>
+            <td><img src="'.$fotouser.'" class="img-thumbnail" width="40px"></td>
+            <td>'.$value["nombre"].'</td>
+            <td>'.$value["usuario"].'</td>
+            <td>'.$value["perfil"].'</td>
+            <td><button class="btn btn-'.$clasestatus.' btn-xs">'.$estado.'</button></td>
+            <td>'.$value["ultimo_login"].'</td>
             <td>
               <div class="btn-group">
                 <button class="btn btn-warning btn-xs">
@@ -79,7 +98,10 @@
               </div>
 
 
-            </td>
+            </td></tr>';
+          }
+          ?>
+          
 
           </tbody>
 

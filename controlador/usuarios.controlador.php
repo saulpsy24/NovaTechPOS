@@ -2,6 +2,7 @@
 
 <?php
 class ControladorUsuarios{
+    
 
     //LOGIN
 
@@ -14,9 +15,20 @@ class ControladorUsuarios{
                 $valor=$_POST["ingUsuario"];
                 $respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla,$item,$valor);
 
-                if($respuesta["usuario"]==$_POST["ingUsuario"] && $respuesta["password"]==$_POST["ingPassword"]){
+                $enciptar = crypt($_POST["ingPassword"],'$2a$07$used3v3l0pm3ntsalt$');
+
+                if($respuesta["usuario"]==$_POST["ingUsuario"] && $respuesta["password"]==$enciptar){
                     echo '<br> <div class="alert alert-success">Bienvenido al Sistema</div>';
+
                     $_SESSION["iniciarSesion"]="ok";
+                    $_SESSION["id"]=$respuesta["id"];
+                    $_SESSION["nombre"]=$respuesta["nombre"];
+                    $_SESSION["usuario"]=$respuesta["usuario"];
+                    $_SESSION["foto"]=$respuesta["foto"];
+                    $_SESSION["perfil"]=$respuesta["perfil"];
+
+
+
                     echo'<script>
                     window.location="inicio";
 
@@ -38,10 +50,57 @@ class ControladorUsuarios{
            if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/',$_POST["nuevoNombre"])&&
            preg_match('/^[a-zA-Z0-9]+$/',$_POST["nuevoUsuario"])&&
            preg_match('/^[a-zA-Z0-9]+$/',$_POST["nuevoPassword"])){
+               $ruta ="";
+               //validando imagen
+
+            if(isset($_FILES["nuevaFoto"]["tmp_name"])){
+                list($ancho,$alto) = getimagesize($_FILES["nuevaFoto"]["tmp_name"]);
+
+                $nuevoAncho=500;
+                $nuevoAlto=500;
+
+                //crear directorio
+
+                $directorio="vistas/img/usuarios/".$_POST["nuevoUsuario"];
+                mkdir($directorio,0755);
+
+                //funciones de acuerdo al tipo de imagen
+
+                //paraJPEG
+
+                if($_FILES["nuevaFoto"]["type"]=="image/jpeg"){
+                    $aleatorio = mt_rand(100,999);
+                    $ruta = $directorio."/".$aleatorio.".jpg";
+                    $origen = imagecreatefromjpeg($_FILES["nuevaFoto"]["tmp_name"]);
+                    $destino = imagecreatetruecolor($nuevoAncho,$nuevoAlto);
+
+                    imagecopyresized($destino,$origen,0,0,0,0,$nuevoAncho,$nuevoAlto,$ancho,$alto);
+                    imagejpeg($destino,$ruta);
+                }
+
+                //para PNG
+                if($_FILES["nuevaFoto"]["type"]=="image/png"){
+                    $aleatorio = mt_rand(100,999);
+                    $ruta = $directorio."/".$aleatorio.".png";
+                    $origen = imagecreatefrompng($_FILES["nuevaFoto"]["tmp_name"]);
+                    $destino = imagecreatetruecolor($nuevoAncho,$nuevoAlto);
+
+                    imagecopyresized($destino,$origen,0,0,0,0,$nuevoAncho,$nuevoAlto,$ancho,$alto);
+                    imagepng($destino,$ruta);
+                }
+
+            }
+
+
+
+            $enciptar = crypt($_POST["nuevoPassword"],'$2a$07$used3v3l0pm3ntsalt$');
+
+            //insertando en la DB
 
             $tabla = "usuarios";
-            $datos = array("nombre"=>$_POST["nuevoNombre"],"usuario"=>$_POST["nuevoUsuario"], "password"=>$_POST["nuevoPassword"],
-                            "perfil"=>$_POST["nuevoPerfil"]);
+            $datos = array("nombre"=>$_POST["nuevoNombre"],"usuario"=>$_POST["nuevoUsuario"], "password"=>$enciptar,
+                            "perfil"=>$_POST["nuevoPerfil"],
+                            "foto"=>$ruta);
                             $respuesta=ModeloUsuarios::mdlIngresarUsuario($tabla,$datos);
                             if($respuesta=="ok"){
                                    
@@ -101,4 +160,20 @@ class ControladorUsuarios{
      }
 
 }
+
+    //MOSTRAR USUARIOS
+    static public function ctrMostrarUsuarios($item,$valor){
+        
+        $tabla="usuarios";
+        
+
+        $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla,$item,$valor);
+
+        return $respuesta;
+
+
+    }
+
+
+
 }
