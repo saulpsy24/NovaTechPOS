@@ -4988,4 +4988,9 @@ table.text-center th {
   .table-responsive > .table tr td {
     white-space: normal !important;
   }
+  
+.rounded{
+  border-radius: 50%;
 }
+}
+

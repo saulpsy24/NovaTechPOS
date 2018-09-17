@@ -14,24 +14,51 @@ class ControladorUsuarios{
                 $valor=$_POST["ingUsuario"];
                 $respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla,$item,$valor);
 
-                $enciptar = crypt($_POST["ingPassword"],'$2a$07$used3v3l0pm3ntsalt$');
+				$enciptar = crypt($_POST["ingPassword"],'$2a$07$used3v3l0pm3ntsalt$');
+				
 
                 if($respuesta["usuario"]==$_POST["ingUsuario"] && $respuesta["password"]==$enciptar){
-                    echo '<br> <div class="alert alert-success">Bienvenido al Sistema</div>';
+					if($respuesta["estado"]==1){
+						echo '<br> <div class="alert alert-success">Bienvenido al Sistema</div>';
+						
 
-                    $_SESSION["iniciarSesion"]="ok";
-                    $_SESSION["id"]=$respuesta["id"];
-                    $_SESSION["nombre"]=$respuesta["nombre"];
-                    $_SESSION["usuario"]=$respuesta["usuario"];
-                    $_SESSION["foto"]=$respuesta["foto"];
-                    $_SESSION["perfil"]=$respuesta["perfil"];
+						$_SESSION["iniciarSesion"]="ok";
+						$_SESSION["id"]=$respuesta["id"];
+						$_SESSION["nombre"]=$respuesta["nombre"];
+						$_SESSION["usuario"]=$respuesta["usuario"];
+						$_SESSION["foto"]=$respuesta["foto"];
+						$_SESSION["perfil"]=$respuesta["perfil"];
+						
+						date_default_timezone_set("America/Mexico_City");
+						$fecha = date('Y-m-d');
+						$hora = date('H:i:s');
+						$fecha_actual = $fecha." ".$hora;
+	
+						$item1 = "ultimo_login";
+						$valor1 = $fecha_actual;
+						$item2= "id";
+						$valor2 = $respuesta["id"];
+	
+						$ultimoLogin=ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2);
+						if($ultimoLogin=="ok");{
+							
+							echo'<script>
+						window.location="inicio";
+	
+						</script>';
+					
+	
+						}
+						
+
+					}else{
+						echo '<br><div class="alert alert-danger">Error al Ingresar, Usuario Suspendido </div>';
+              
+					}
 
 
 
-                    echo'<script>
-                    window.location="inicio";
-
-                    </script>';
+                   
                 }else{
                     echo '<br><div class="alert alert-danger">Error al Ingresar, Vuelve a Intentarlo </div>';
                 }
